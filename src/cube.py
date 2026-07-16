@@ -1,8 +1,8 @@
 import numpy as np
 
 # green forwards, white up
-F, U, L, D, R, B = range(6)
-M, E, S = range(6, 9) # middle slices
+GREEN, WHITE, ORANGE, YELLOW, RED, BLUE = F, U, L, D, R, B = range(6)
+M, E, S = range(6, 9)  # middle slices
 
 SOLVED = np.array([np.full((3, 3), side) for side in range(6)])
 
@@ -48,17 +48,16 @@ def turn(cube, face, n=1):
         a, b = PAIRS[face]
         turn(cube, a, n)
         turn(cube, b, -n)
-        return # early
+        return  # early
 
     n %= 4
     # face rotation
     cube[face] = np.rot90(cube[face], -n)
 
     # strip rotation
+    # combine strip, roll by 3 (one face), add back to cube
     i = INDICES[face]
-    cube[i] = np.roll(
-        cube[i], -3 * n
-    )  # combine strip, roll by 3 (one face), add back to cube
+    cube[i] = np.roll(cube[i], -3 * n)
     # no need to return
 
 

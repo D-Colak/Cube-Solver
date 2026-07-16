@@ -8,9 +8,9 @@ from multiprocessing import Pool
 import twophase.solver as sv
 from twophase.cubie import CubieCube
 
+from cubesolver.scrambles import PATH as OUTPUT, RECORD
+
 N_SCRAMBLES = 10000
-OUTPUT = "scrambles.txt"
-RECORD = 80
 MAX_LENGTH = 21
 TIMEOUT = 2
 
