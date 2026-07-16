@@ -3,7 +3,6 @@ import numpy as np
 # green forwards, white up
 F, U, L, D, R, B = range(6)
 M, E, S = range(6, 9) # middle slices
-COLORS = ["green", "white", "orange", "yellow", "red", "blue"]
 
 SOLVED = np.array([np.full((3, 3), side) for side in range(6)])
 

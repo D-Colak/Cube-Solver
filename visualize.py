@@ -4,6 +4,8 @@ from matplotlib import animation
 
 from cube import U, L, F, R, B, D
 
+COLORS = ["green", "white", "orange", "yellow", "red", "blue"]
+
 DRAW_OFFSETS = {
     U: (3, 6),
     L: (0, 3),
@@ -14,7 +16,7 @@ DRAW_OFFSETS = {
 }
 
 
-def draw(cube, colors):
+def draw(cube):
     fig, ax = plt.subplots(figsize=(8, 6))
     ax.set_aspect("equal")
     ax.axis("off")
@@ -29,7 +31,7 @@ def draw(cube, colors):
                         (off_x + col, off_y + (2 - row)),
                         1,
                         1,
-                        facecolor=colors[cube[face, row, col]],
+                        facecolor=COLORS[cube[face, row, col]],
                         edgecolor="black",
                         linewidth=0.5,
                     )
@@ -40,16 +42,16 @@ def draw(cube, colors):
     return fig
 
 
-def animate_frame(i, frames, colors, patches, label):
+def animate_frame(i, frames, patches, label):
     cube, move = frames[i]
     # match patches and cube sides
     for patch, side in zip(patches.ravel(), cube.ravel()):
-        patch.set_facecolor(colors[side])
+        patch.set_facecolor(COLORS[side])
     label.set_text(f"{i}/{len(frames) - 1}    {move}")
     return [*patches.ravel(), label]
 
 
-def animate(frames, colors, interval=400):
+def animate(frames, interval=400):
     fig, ax = plt.subplots(figsize=(8, 6))
     ax.set_aspect("equal")
     ax.axis("off")
@@ -79,7 +81,7 @@ def animate(frames, colors, interval=400):
         fig,
         animate_frame,
         frames=len(frames),
-        fargs=(frames, colors, patches, label),
+        fargs=(frames, patches, label),
         interval=interval,
         repeat=False,
     )
