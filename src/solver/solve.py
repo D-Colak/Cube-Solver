@@ -1,7 +1,8 @@
 from cube import run, convert_notation
 from solver.daisy import daisy
+from solver.cross import cross
 
-STAGES = (daisy,)
+STAGES = (daisy, cross)
 
 
 def solve(cube):
