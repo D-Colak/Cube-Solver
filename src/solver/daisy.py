@@ -24,7 +24,6 @@ GUARD = 500  # safety net; the loop should finish well before this
 # build yellow edges around white center
 def daisy(work, do):
     def spin_until(face, ok):
-        # `do` drops an empty notation, so a zero-turn result is already a no-op
         do(notation(face, turns_until(work, face, ok)))
 
     def empty_slot(face):
@@ -32,7 +31,6 @@ def daisy(work, do):
         spin_until(U, lambda c: sc(c, UP_STICKER[face]) != YELLOW)
 
     def empty_petals():
-        # side faces whose petal slot is free; the flower isn't done, so >=1 exists
         return [face for face in SIDE_FACES if sc(work, UP_STICKER[face]) != YELLOW]
 
     for _ in range(GUARD):
