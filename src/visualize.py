@@ -38,10 +38,9 @@ def cell_coords():
 
     return coords
 
+# animation class
 class Player:
-    # owns which frame is showing. every control edits this state and redraws
-    # right away, so a step never waits for the timer's next tick. `draw` is
-    # injected: the player knows nothing about matplotlib.
+    # TODO - maybe cut draw injection?
     def __init__(self, n, draw):
         self.last = n - 1
         self.i = 0
@@ -50,22 +49,22 @@ class Player:
 
     def seek(self, j):
         self.i = min(max(j, 0), self.last)
-        self.playing = False  # stepping means you want a look
+        self.playing = False
         self.draw()
 
-    def tick(self):
+    def tick(self): # "frame" of animation
         if not self.playing:
             return
         if self.i < self.last:
             self.i += 1
         else:
-            self.playing = False  # ran off the end; wait rather than loop
+            self.playing = False  # end of loop
         self.draw()
 
     def on_key(self, event):
         if event.key == " ":
             if self.i >= self.last:
-                self.i = 0  # replay from the top
+                self.i = 0  # replay from top
             self.playing = not self.playing
             self.draw()
         elif event.key == "right":
@@ -97,7 +96,7 @@ def animate(frames, interval=400, scramble=""):
             patch.set_facecolor(COLORS[side])
         status = "" if player.playing else "[paused]"
         label.set_text(f"{player.i}/{player.last}    {move}    {status}")
-        fig.canvas.draw_idle()  # repaint now, not on the timer's next tick
+        fig.canvas.draw_idle()  # repaint now, not on next tick
 
     player = Player(len(frames), draw)
     fig.canvas.mpl_connect("key_press_event", player.on_key)
@@ -106,4 +105,4 @@ def animate(frames, interval=400, scramble=""):
     timer.add_callback(player.tick)
     timer.start()
     draw()
-    return timer  # caller keeps this alive; it holds the player and the figure
+    return timer  # caller keeps this alive
