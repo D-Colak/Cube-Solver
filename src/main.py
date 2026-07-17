@@ -5,7 +5,7 @@ from scramble_reader import random_scramble
 from solver.solve import solve
 from visualize import animate
 
-INTERVAL = 1000  # ms per move
+INTERVAL = 100  # ms per move
 
 
 def main():
@@ -14,9 +14,9 @@ def main():
     scramble = random_scramble()
     run(cube, convert_notation(scramble))
 
-    solution = solve(cube)
+    solution, stages = solve(cube)
     frames = record(cube, convert_notation(solution))  # instant
-    ani = animate(frames, INTERVAL, scramble)  # drawn with delay
+    ani = animate(frames, INTERVAL, scramble, stages)  # drawn with delay
     plt.show()  # ani stays bound until this returns, so it survives
 
 

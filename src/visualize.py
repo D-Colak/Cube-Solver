@@ -75,7 +75,7 @@ class Player:
             self.seek(0)
 
 
-def animate(frames, interval=400, scramble=""):
+def animate(frames, interval=400, scramble="", stages=None):
     fig, ax = plt.subplots(figsize=(8, 6))
     setup(ax)
 
@@ -88,6 +88,8 @@ def animate(frames, interval=400, scramble=""):
 
     ax.text(6, 10.1, scramble, ha="center", fontsize=10, family="monospace")
     label = ax.text(3, 9.25, "", fontsize=14, family="monospace")
+    stage_label = ax.text(9.5, 1.5, "", ha="center", fontsize=18,
+                          family="monospace", fontweight="bold")
     ax.text(3, -0.35, HELP, fontsize=9, family="monospace", color="0.45")
 
     def draw():
@@ -96,6 +98,8 @@ def animate(frames, interval=400, scramble=""):
             patch.set_facecolor(COLORS[side])
         status = "" if player.playing else "[paused]"
         label.set_text(f"{player.i}/{player.last}    {move}    {status}")
+        # move i lands the cube in frame i, so it names the stage there
+        stage_label.set_text(stages[max(player.i - 1, 0)] if stages else "")
         fig.canvas.draw_idle()  # repaint now, not on next tick
 
     player = Player(len(frames), draw)
