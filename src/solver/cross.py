@@ -1,7 +1,7 @@
-# drop yellow edges from U face to D face
+# cross: drop the daisy's yellow petals down onto the yellow center
 
 from cube import U, YELLOW
-from geometry import (
+from solver.geometry import (
     EDGES,
     TOP_EDGES,
     SIDE_FACES,
@@ -11,7 +11,7 @@ from geometry import (
     turns_to,
     cost,
 )
-from cube_reader import sc, edges_with
+from solver.cube_reader import sc, edges_with
 
 GUARD = 100  # safety net; the loop should finish well before this
 
@@ -30,8 +30,6 @@ def solved(cube):
 
 
 def cross(work, do):
-    # drop yellow edges from U face to D face
-
     def petals():
         # (edge, the face it belongs on) for every yellow edge still up top
         out = []

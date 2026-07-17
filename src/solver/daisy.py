@@ -1,5 +1,7 @@
+# daisy: build the yellow petals -- four yellow edges around the white U center
+
 from cube import U, D, YELLOW, WHITE, FACE_OF
-from geometry import (
+from solver.geometry import (
     TOP_EDGES,
     BOTTOM_EDGES,
     MIDDLE_EDGES,
@@ -9,7 +11,7 @@ from geometry import (
     turns_to,
     cost,
 )
-from cube_reader import sc, compile_mask, matches, edges_with, turns_until
+from solver.cube_reader import sc, compile_mask, matches, edges_with, turns_until
 
 FLOWER_MASK = [
     [-1, YELLOW, -1],
@@ -21,7 +23,11 @@ FLOWER = compile_mask(FLOWER_MASK)
 
 GUARD = 500  # safety net; the loop should finish well before this
 
-# build yellow edges around white center
+
+def solved(cube):
+    return matches(cube[U].flatten(), FLOWER)
+
+
 def daisy(work, do):
     def spin_until(face, ok):
         do(notation(face, turns_until(work, face, ok)))
@@ -34,7 +40,7 @@ def daisy(work, do):
         return [face for face in SIDE_FACES if sc(work, UP_STICKER[face]) != YELLOW]
 
     for _ in range(GUARD):
-        if matches(work[U].flatten(), FLOWER):
+        if solved(work):
             return
 
         edges = edges_with(work, YELLOW)

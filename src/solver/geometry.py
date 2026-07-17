@@ -32,10 +32,7 @@ MIDDLE_EDGES = ("FR", "RB", "BL", "LF")
 
 SIDE_FACES = (F, R, B, L)
 
-# the four edges around each face, in that face's turn-cycle order. U and D run
-# opposite ways in a fixed frame (both are clockwise seen from outside), so
-# these are read off the engine rather than eyeballed -- see TOP_EDGES, which is
-# a membership list and is *not* in U's cycle order.
+# four edges around each face
 RING = {
     U: ("UF", "UL", "UB", "UR"),
     D: ("DF", "DR", "DB", "DL"),
@@ -67,6 +64,39 @@ def cost(n):
     # cost function for turns
     n %= 4
     return min(n, 4 - n)
+
+
+def invert(alg):
+    # reverse a sequence and flip each move
+    flip = {"": "'", "'": "", "2": "2"}
+    return " ".join(move[0] + flip[move[1:]] for move in reversed(alg.split()))
+
+
+def cancel(moves):
+    # merge consecutive or opposing turns
+    out = []
+    for move in moves:
+        if out and out[-1][0] == move[0]:
+            n = (SUFFIX[out[-1][1:]] + SUFFIX[move[1:]]) % 4
+            out.pop()
+            if n:
+                out.append(move[0] + TURN_CHAR[n])
+        else:
+            out.append(move)
+    return out
+
+
+U_AXIS_CYCLE = "FRBL"
+
+
+def rotate_alg(alg, n):
+    # rotate algorithm n times around U axis
+    def move(m):
+        if m[0] in U_AXIS_CYCLE:
+            return U_AXIS_CYCLE[(U_AXIS_CYCLE.index(m[0]) + n) % 4] + m[1:]
+        return m
+
+    return " ".join(move(m) for m in alg.split())
 
 
 def turns_to(face, edge, dest):
