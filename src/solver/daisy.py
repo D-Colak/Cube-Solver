@@ -1,5 +1,5 @@
 from cube import U, D, YELLOW, WHITE, FACE_OF
-from solver.geometry import (
+from geometry import (
     TOP_EDGES,
     BOTTOM_EDGES,
     MIDDLE_EDGES,
@@ -9,7 +9,7 @@ from solver.geometry import (
     turns_to,
     cost,
 )
-from solver.cube_reader import sc, compile_mask, matches, edges_with, turns_until
+from cube_reader import sc, compile_mask, matches, edges_with, turns_until
 
 FLOWER_MASK = [
     [-1, YELLOW, -1],

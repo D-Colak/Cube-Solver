@@ -1,7 +1,7 @@
 # drop yellow edges from U face to D face
 
 from cube import U, YELLOW
-from solver.geometry import (
+from geometry import (
     EDGES,
     TOP_EDGES,
     SIDE_FACES,
@@ -11,7 +11,7 @@ from solver.geometry import (
     turns_to,
     cost,
 )
-from solver.cube_reader import sc, edges_with
+from cube_reader import sc, edges_with
 
 GUARD = 100  # safety net; the loop should finish well before this
 
