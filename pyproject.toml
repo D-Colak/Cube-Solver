@@ -9,4 +9,5 @@ dependencies = [
     "numpy>=2.5.1",
     "plotly>=6.9.0",
     "rubiktwophase>=1.1.1",
+    "streamlit>=1.59.2",
 ]
